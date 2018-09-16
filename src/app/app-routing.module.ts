@@ -25,7 +25,11 @@ const routes: Routes = [
     path: 'reset-password',
     loadChildren: './pages/reset-password/reset-password.module#ResetPasswordPageModule',
   },
-  { path: 'signup', loadChildren: './pages/signup/signup.module#SignupPageModule' },
+  {
+    path: 'signup/:billId',
+    loadChildren: './pages/signup/signup.module#SignupPageModule',
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({
