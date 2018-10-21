@@ -36,7 +36,7 @@ export class BillService {
   async createBill(
     name: string,
     amount: number,
-    dueDate: any = null,
+    dueDate: string = null,
     paid: boolean = false
   ): Promise<any> {
     const newBillRef: firebase.firestore.DocumentReference = await this.billList.add({});
@@ -44,7 +44,7 @@ export class BillService {
     return newBillRef.update({
       name,
       amount,
-      dueDate: `${dueDate.year.value}-${dueDate.month.value - 1}-${dueDate.day.value}`,
+      dueDate,
       paid,
       id: newBillRef.id,
     });
