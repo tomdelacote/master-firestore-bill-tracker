@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>My Bills</ion-title>
     <ion-buttons slot="end">
-      <ion-button href="/bill-create">
+      <ion-button routerLink="/bill-create">
         <ion-icon slot="icon-only" name="add"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -33,7 +33,8 @@
     <ion-list-header>
       Paid Bills
     </ion-list-header>
-    <ion-item *ngFor="let bill of billList | async" href="/bill-detail/{{bill.id}}" [class.hide]="bill.paid === false">
+    <ion-item *ngFor="let bill of billList | async" routerLink="/bill-detail/{{bill.id}}"
+      [class.hide]="bill.paid === false">
       <ion-icon name="checkmark" color="secondary" slot="end"></ion-icon>
       <ion-label>
         <h2>{{bill.name}}</h2>
