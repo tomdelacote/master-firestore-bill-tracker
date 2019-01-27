@@ -9,6 +9,10 @@ import * as firebase from 'firebase/app';
 export class AuthService {
   constructor(public afAuth: AngularFireAuth, public firestore: AngularFirestore) {}
 
+  getUser(): firebase.User {
+    return this.afAuth.auth.currentUser;
+  }
+
   loginUser(
     newEmail: string,
     newPassword: string

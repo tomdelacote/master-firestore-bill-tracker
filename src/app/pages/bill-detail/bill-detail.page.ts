@@ -3,6 +3,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ActionSheetController, AlertController } from '@ionic/angular';
 import { BillService } from '../../services/bill.service';
 import { Observable } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
+import { Plugins, CameraResultType } from '@capacitor/core';
+
+const { Camera } = Plugins;
 
 @Component({
   selector: 'app-bill-detail',
@@ -10,15 +14,17 @@ import { Observable } from 'rxjs';
   styleUrls: ['./bill-detail.page.scss'],
 })
 export class BillDetailPage implements OnInit {
-  public bill: Observable<any>;
-  public billId: string;
+  bill: Observable<any>;
+  billId: string;
+  placeholderPicture = 'assets/img/debt-collector.jpg';
 
   constructor(
-    public router: Router,
-    public route: ActivatedRoute,
-    public actionCtrl: ActionSheetController,
-    public alertCtrl: AlertController,
-    public billService: BillService
+    private router: Router,
+    private route: ActivatedRoute,
+    private actionCtrl: ActionSheetController,
+    private alertCtrl: AlertController,
+    private billService: BillService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -58,5 +64,31 @@ export class BillDetailPage implements OnInit {
       ],
     });
     action.present();
+  }
+
+  async uploadPicture(): Promise<void> {
+    if (this.authService.getUser().isAnonymous === true) {
+      const alert = await this.alertCtrl.create({
+        message:
+          'If you want to continue you will need to provide an email and create a password',
+        buttons: [
+          { text: 'Cancel' },
+          {
+            text: 'OK',
+            handler: data => {
+              this.router.navigate(['/signup', this.billId]);
+            },
+          },
+        ],
+      });
+      alert.present();
+    } else {
+      const debtPicture = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.Base64,
+      });
+      this.billService.takeBillPhoto(this.billId, debtPicture.base64Data.slice(23));
+    }
   }
 }
