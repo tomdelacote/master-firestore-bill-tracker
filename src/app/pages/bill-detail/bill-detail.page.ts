@@ -28,7 +28,7 @@ export class BillDetailPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.billId = this.route.snapshot.paramMap.get('id');
+    this.billId = this.route.snapshot.paramMap.get('billId');
     this.bill = this.billService.getBill(this.billId).valueChanges();
   }
 
