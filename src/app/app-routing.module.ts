@@ -16,8 +16,8 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'signup/:billId',
-    loadChildren: './pages/signup/signup.module#SignupPageModule',
+    path: 'bill-detail/:billId',
+    loadChildren: './pages/bill-detail/bill-detail.module#BillDetailPageModule', /* Ici */
     canActivate: [AuthGuard],
   },
   { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
